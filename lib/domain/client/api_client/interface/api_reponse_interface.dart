@@ -1,16 +1,16 @@
 import 'package:dio/dio.dart' as dio;
 
-class ApiResponseInterface {
+class IApiResponse {
   final int? statusCode;
   final dynamic data;
 
-  ApiResponseInterface({
+  IApiResponse({
     required this.statusCode,
     required this.data,
   });
 
-  factory ApiResponseInterface.fromResponse(dio.Response response) {
-    return ApiResponseInterface(
+  factory IApiResponse.fromResponse(dio.Response response) {
+    return IApiResponse(
       statusCode: response.statusCode,
       data: response.data,
     );

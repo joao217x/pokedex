@@ -1,5 +1,5 @@
 import 'package:pokedex/domain/entity/pokemon.dart';
 
-abstract class PokeApiService {
+abstract class IPokeApiService {
   Future<List<Pokemon>> getPokemons();
 }

@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:pokedex/data/service/poke_api_service.dart';
+import 'package:pokedex/data/service/poke_api_service_interface.dart';
 import 'package:pokedex/data/service/poke_api_service_impl.dart';
 import 'package:pokedex/domain/client/api_client/dio_client_impl.dart';
-import 'package:pokedex/domain/client/api_client/interface/api_client.dart';
+import 'package:pokedex/domain/client/api_client/interface/api_client_interface.dart';
+import 'package:pokedex/presentation/home/controller/home_store.dart';
 
 GetIt appLocator = GetIt.instance;
 
@@ -13,13 +14,18 @@ class AppLocator {
     appLocator.registerFactory<Dio>(() => Dio());
 
     //Client
-    appLocator.registerFactory<ApiClient>(
+    appLocator.registerFactory<IApiClient>(
       () => DioClientImpl(client: appLocator<Dio>()),
     );
 
     //Service
-    appLocator.registerFactory<PokeApiService>(
-      () => PokeApiServiceImpl(client: appLocator<DioClientImpl>()),
+    appLocator.registerFactory<IPokeApiService>(
+      () => PokeApiServiceImpl(client: appLocator<IApiClient>()),
+    );
+
+    //Controller/Store
+    appLocator.registerFactory<HomeStore>(
+      () => HomeStore(pokeApi: appLocator<IPokeApiService>()),
     );
   }
 }
