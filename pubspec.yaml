@@ -10,15 +10,14 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # Environment variables
+  flutter_dotenv: ^5.0.2
+
   # Service locator
   get_it: ^7.6.0
 
   # Remote API client
   dio: ^5.1.2
-
-  # Structure tools
-  flutter_dotenv: ^5.0.2
-  import_sorter: ^4.6.0
 
   # State management
   mobx: ^2.2.0
@@ -27,16 +26,22 @@ dependencies:
   # Image manipulator
   cached_network_image: ^3.2.3
 
-  # UX/UI
-  flutter_native_splash: ^2.2.19
-  flutter_launcher_icons: ^0.13.1
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0     # Linter package
-  build_runner: ^2.3.3      # Code generator
-  mobx_codegen: ^2.3.0      # Mobx code generator
+
+  # Linter package
+  flutter_lints: ^2.0.0
+
+  # Code generator
+  build_runner: ^2.3.3
+  mobx_codegen: ^2.3.0
+
+  # Import manager
+  import_sorter: ^4.6.0
+
+  # UX/UI
+  flutter_launcher_icons: ^0.13.1
 
 # The following section is specific to Flutter packages.
 flutter:
@@ -46,7 +51,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
+  assets:
+    - .env
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
@@ -62,6 +68,7 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   # fonts:
+
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf
