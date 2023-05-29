@@ -1,8 +1,10 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:mobx/mobx.dart';
+
 import 'package:pokedex/data/service/poke_api_service_interface.dart';
 import 'package:pokedex/domain/entity/pokemon.dart';
+
 part 'home_store.g.dart';
 
 class HomeStore = _HomeStoreBase with _$HomeStore;

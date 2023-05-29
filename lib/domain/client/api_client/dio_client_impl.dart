@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+
 import 'package:pokedex/domain/client/api_client/interface/api_client_interface.dart';
 import 'package:pokedex/domain/client/api_client/interface/api_reponse_interface.dart';
 
