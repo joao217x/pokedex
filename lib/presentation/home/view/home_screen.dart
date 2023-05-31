@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
   final HomeStore store = appLocator<HomeStore>();
 
   HomeScreen({super.key}) {
-    store.getPokemons();
+    store.getPokeList();
   }
 
   @override
@@ -19,11 +19,11 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.teal.shade50,
       appBar: const AppBarWidget(),
-      body: _content(),
+      body: _body(),
     );
   }
 
-  Widget _content() {
+  Widget _body() {
     return Observer(builder: (context) {
       return Column(
         children: [
@@ -34,12 +34,18 @@ class HomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _title(context),
-                  if (!store.isLoading)
-                    Expanded(child: _pokeList())
-                  else
-                    const Expanded(
-                      child: Center(child: CircularProgressIndicator()),
-                    )
+                  store.isLoading
+                      ? Center(
+                          child: Column(
+                            children: const [
+                              SizedBox(height: 200),
+                              CircularProgressIndicator(),
+                            ],
+                          ),
+                        )
+                      : store.hasError
+                          ? _errorState()
+                          : Expanded(child: _pokeList())
                 ],
               ),
             ),
@@ -56,6 +62,21 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  Widget _errorState() {
+    return Center(
+      child: Column(
+        children: const [
+          SizedBox(height: 128),
+          Icon(
+            Icons.warning_rounded,
+            size: 100,
+          ),
+          Text('Houve um erro na conexão')
+        ],
+      ),
+    );
+  }
+
   Widget _pokeList() {
     return Container(
       decoration: const BoxDecoration(
@@ -68,10 +89,15 @@ class HomeScreen extends StatelessWidget {
           itemBuilder: (context, index) {
             final pokemon = store.pokeList[index];
 
-            return PokemonCardWidget(
-              name: pokemon.name,
-              id: pokemon.id,
-              type: pokemon.types.first,
+            return GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/details', arguments: pokemon);
+              },
+              child: PokemonCardWidget(
+                name: pokemon.name,
+                id: pokemon.id,
+                type: pokemon.types.first,
+              ),
             );
           }),
     );

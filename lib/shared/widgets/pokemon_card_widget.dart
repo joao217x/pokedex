@@ -55,8 +55,8 @@ class PokemonCardWidget extends StatelessWidget {
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                 ),
                 child: Text(
-                  '  #00$id  ',
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  id < 10 ? '  #00$id  ' : '  #0$id  ',
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
               ),
               const SizedBox(height: 4),
@@ -67,7 +67,7 @@ class PokemonCardWidget extends StatelessWidget {
                 ),
                 child: Text(
                   '  ${type.capitalize()}  ',
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
               ),
             ],

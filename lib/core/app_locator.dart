@@ -1,10 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
-import 'package:pokedex/data/service/poke_api_service_impl.dart';
-import 'package:pokedex/data/service/poke_api_service_interface.dart';
-import 'package:pokedex/domain/client/api_client/dio_client_impl.dart';
-import 'package:pokedex/domain/client/api_client/interface/api_client_interface.dart';
+import 'package:pokedex/core/client/api_client/dio_client_impl.dart';
+import 'package:pokedex/core/client/api_client/interface/api_client_interface.dart';
+import 'package:pokedex/data/datasource/pokemon_remote_data_source.dart';
+import 'package:pokedex/data/datasource/pokemon_remote_data_source_impl.dart';
+import 'package:pokedex/data/repository/pokemon_repository_impl.dart';
+import 'package:pokedex/domain/repository/pokemon_repository.dart';
+import 'package:pokedex/domain/usecase/get_pokemons.dart';
 import 'package:pokedex/presentation/home/controller/home_store.dart';
 
 GetIt appLocator = GetIt.instance;
@@ -19,14 +22,24 @@ class AppLocator {
       () => DioClientImpl(client: appLocator<Dio>()),
     );
 
-    //Service
-    appLocator.registerFactory<IPokeApiService>(
-      () => PokeApiServiceImpl(client: appLocator<IApiClient>()),
+    //Datasource
+    appLocator.registerFactory<PokemonRemoteDataSource>(
+      () => PokemonRemoteDataSourceImpl(client: appLocator<IApiClient>()),
     );
 
-    //Controller/Store
-    appLocator.registerFactory<HomeStore>(
-      () => HomeStore(pokeApi: appLocator<IPokeApiService>()),
+    //Repository
+    appLocator.registerFactory<PokemonRepository>(
+      () => PokemonRepositoryImpl(
+        dataSource: appLocator<PokemonRemoteDataSource>(),
+      ),
     );
+
+    //Usecase
+    appLocator.registerFactory<GetPokemons>(
+      () => GetPokemons(repository: appLocator<PokemonRepository>()),
+    );
+
+    //Store
+    appLocator.registerFactory<HomeStore>(() => HomeStore());
   }
 }

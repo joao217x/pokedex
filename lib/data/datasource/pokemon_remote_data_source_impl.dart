@@ -1,18 +1,18 @@
 import 'dart:developer';
 
+import 'package:pokedex/core/app_envs.dart';
+import 'package:pokedex/core/client/api_client/interface/api_client_interface.dart';
+import 'package:pokedex/data/datasource/pokemon_remote_data_source.dart';
 import 'package:pokedex/data/model/pokemon_model.dart';
-import 'package:pokedex/data/service/poke_api_service_interface.dart';
-import 'package:pokedex/domain/client/api_client/interface/api_client_interface.dart';
 import 'package:pokedex/domain/entity/pokemon.dart';
-import 'package:pokedex/domain/util/app_envs.dart';
 
-class PokeApiServiceImpl implements IPokeApiService {
+class PokemonRemoteDataSourceImpl implements PokemonRemoteDataSource {
   final IApiClient client;
 
-  PokeApiServiceImpl({required this.client});
+  PokemonRemoteDataSourceImpl({required this.client});
 
   @override
-  Future<List<Pokemon>> getPokemons() async {
+  Future<List<Pokemon>?> getPokemons() async {
     final response = await client.get(AppEnvs.apiUrl);
 
     if (response.statusCode == 200) {

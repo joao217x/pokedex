@@ -2,31 +2,32 @@
 
 import 'package:mobx/mobx.dart';
 
-import 'package:pokedex/data/service/poke_api_service_interface.dart';
+import 'package:pokedex/core/app_locator.dart';
+import 'package:pokedex/core/usecase/usecase.dart';
 import 'package:pokedex/domain/entity/pokemon.dart';
+import 'package:pokedex/domain/usecase/get_pokemons.dart';
 
 part 'home_store.g.dart';
 
 class HomeStore = _HomeStoreBase with _$HomeStore;
 
 abstract class _HomeStoreBase with Store {
-  final IPokeApiService pokeApi;
-
-  _HomeStoreBase({required this.pokeApi});
+  final GetPokemons getPokemons = appLocator.get<GetPokemons>();
 
   @observable
   List<Pokemon> pokeList = [];
 
   @action
-  Future<void> getPokemons() async {
-    try {
-      initLoading();
-      final response = await pokeApi.getPokemons();
-      pokeList = response;
-      endLoading();
-    } catch (_) {
-      setIsError(true);
-    }
+  Future<void> getPokeList() async {
+    setIsLoading(true);
+
+    final result = await getPokemons.handle(emptyParams);
+    result.fold(
+      (left) => setHasError(true),
+      (list) => pokeList = list,
+    );
+
+    setIsLoading(false);
   }
 
   @observable
@@ -35,17 +36,7 @@ abstract class _HomeStoreBase with Store {
   void setIsLoading(bool value) => isLoading = value;
 
   @observable
-  bool isError = false;
+  bool hasError = false;
   @action
-  void setIsError(bool value) => isError = value;
-
-  void initLoading() {
-    setIsError(false);
-    setIsLoading(true);
-  }
-
-  void endLoading() {
-    setIsError(false);
-    setIsLoading(false);
-  }
+  void setHasError(bool value) => hasError = value;
 }

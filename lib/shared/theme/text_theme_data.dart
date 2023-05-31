@@ -16,6 +16,12 @@ class TextThemeData {
       ),
       bodyMedium: TextStyle(
         fontSize: 14,
+        fontWeight: FontWeight.bold,
+        fontFamily: 'Poppins',
+        color: Colors.grey.shade900,
+      ),
+      bodySmall: TextStyle(
+        fontSize: 14,
         fontWeight: FontWeight.normal,
         fontFamily: 'Poppins',
         color: Colors.grey.shade900,

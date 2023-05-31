@@ -2,6 +2,9 @@ abstract class AppStrings {
   static String imageUrl({required int id}) =>
       'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$id.png';
 
+  static String infoImageUrl({required int id}) =>
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/$id.png';
+
   static const String goToDetails = '> Veja ficha completa';
 }
 
